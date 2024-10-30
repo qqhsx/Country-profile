@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import re
 import os
-from googletrans import Translator, LANGUAGES
+from googletrans import Translator
 
 def sanitize_filename(title):
     return re.sub(r'[<>:"/\\|?*]', '_', title)
@@ -42,11 +42,19 @@ def scrape_article_content(link, title, output_directory):
     if not soup:
         return
 
+    # Fetching and translating the title
     page_title = soup.find('h1').text if soup.find('h1') else "No Title"
-    print(f'Processing page title: {page_title}')
+    
+    try:
+        translated_title = translator.translate(page_title, dest='zh-cn').text
+    except Exception as e:
+        print(f"Translation error for title '{page_title}': {e}")
+        translated_title = "翻译失败"
+
+    print(f'Processing page title: {page_title} (Translated: {translated_title})')
 
     main_content = soup.find('div', class_='ssrcss-1ki8hfp-StyledZone e1mcntqj3')
-    content_data = {'title': page_title, 'link': link, 'content': []}
+    content_data = {'title': translated_title, 'link': link, 'content': []}
 
     if main_content:
         for element in main_content.find_all(['p', 'img']):
@@ -61,7 +69,7 @@ def scrape_article_content(link, title, output_directory):
                     else:
                         print("Empty paragraph, skipping.")
                 except Exception as e:
-                    print(f"Translation error: {e}. Skipping this paragraph.")
+                    print(f"Translation error for paragraph: {e}. Skipping this paragraph.")
             elif element.name == 'img':
                 img_url = element['src']
                 content_data['content'].append({"type": "image", "content": img_url})
@@ -70,7 +78,7 @@ def scrape_article_content(link, title, output_directory):
 
     # Ensure output directory exists
     os.makedirs(output_directory, exist_ok=True)
-    filename = os.path.join(output_directory, f"{sanitize_filename(title)}.json")
+    filename = os.path.join(output_directory, f"{sanitize_filename(translated_title)}.json")
     with open(filename, 'w', encoding='utf-8') as json_file:
         json.dump(content_data, json_file, ensure_ascii=False, indent=4)
     print(f"Content saved to {filename}")
