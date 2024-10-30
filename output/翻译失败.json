@@ -1,50 +1,14 @@
 {
     "title": "翻译失败",
-    "link": "https://www.bbc.co.uk/news/world-africa-14115273",
+    "link": "https://www.bbc.co.uk/news/world-south-asia-12966786",
     "content": [
         {
             "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/B45C/production/_120427164_wsahara.png"
+            "content": "https://ichef.bbci.co.uk/ace/standard/294/cpsprodpb/10004/production/_106304556_c72cf651-4cf1-4150-ab6f-52186f5863e3.jpg"
         },
         {
             "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/2CDA/production/_90528411_polisario_ghali_g.jpg"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/7E9E/production/_88541423_sahara_phosphate_g.jpg"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/16516/production/_88541419_sahara_green_march_g.jpg"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/1280/cpsprodpb/F966/production/_128464836_visual_journalism_western_sahara_territory_181120.jpg"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/307E/production/_88541421_sahara_parade_g.jpg"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/7EDC/production/_129767423_bbcm_spain_country_profile_map_180523.png"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/17E47/production/_121436879_bbcm_morocco_western_sahara_country-prof_041121.jpg"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/16C6A/production/_128509239_bbcm_algeria_country_profile_map_020223.png"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/37D2/production/_128509241_bbcm_mali_country_profile_map_020223.png"
-        },
-        {
-            "type": "image",
-            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/3AC9/production/_128594051_bbcm_mauritania_country_profile_map_030223.png"
+            "content": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/4304/production/_96565171_pakistan-peshawar.jpg"
         }
     ]
 }
