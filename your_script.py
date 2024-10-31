@@ -4,6 +4,7 @@ import json
 import re
 import os
 from googletrans import Translator
+import time
 
 def sanitize_filename(title):
     return re.sub(r'[<>:"/\\|?*]', '_', title)
@@ -36,20 +37,24 @@ def scrape_links_from_search(base_url, num_pages=1):
                 print("No search results container found.")
     return all_results
 
-def scrape_article_content(link, title, output_directory):
+def translate_with_retry(text, dest='zh-cn', retries=3):
     translator = Translator()
+    for _ in range(retries):
+        try:
+            return translator.translate(text, dest=dest).text
+        except Exception as e:
+            print(f"Translation error: {e}, retrying...")
+            time.sleep(1)  # 等待1秒再重试
+    return "翻译失败"
+
+def scrape_article_content(link, title, output_directory):
     soup = fetch_html(link)
     if not soup:
         return
 
     # Fetching and translating the title
     page_title = soup.find('h1').text if soup.find('h1') else "No Title"
-    
-    try:
-        translated_title = translator.translate(page_title, dest='zh-cn').text
-    except Exception as e:
-        print(f"Translation error for title '{page_title}': {e}")
-        translated_title = "翻译失败"
+    translated_title = translate_with_retry(page_title)
 
     print(f'Processing page title: {page_title} (Translated: {translated_title})')
 
@@ -60,16 +65,14 @@ def scrape_article_content(link, title, output_directory):
         for element in main_content.find_all(['p', 'img']):
             if element.name == 'p':
                 full_paragraph = element.get_text(strip=True)
+                time.sleep(1)  # 等待1秒再进行翻译
 
                 # Translate the paragraph to Chinese with error handling
-                try:
-                    if full_paragraph:  # Check if the paragraph is not empty
-                        translated_paragraph = translator.translate(full_paragraph, dest='zh-cn').text
-                        content_data['content'].append({"type": "paragraph", "content": translated_paragraph})
-                    else:
-                        print("Empty paragraph, skipping.")
-                except Exception as e:
-                    print(f"Translation error for paragraph: {e}. Skipping this paragraph.")
+                if full_paragraph:  # Check if the paragraph is not empty
+                    translated_paragraph = translate_with_retry(full_paragraph)
+                    content_data['content'].append({"type": "paragraph", "content": translated_paragraph})
+                else:
+                    print("Empty paragraph, skipping.")
             elif element.name == 'img':
                 img_url = element['src']
                 content_data['content'].append({"type": "image", "content": img_url})
